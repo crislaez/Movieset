@@ -1,0 +1,7 @@
+{
+  "name": "movieset",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}

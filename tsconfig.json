@@ -19,7 +19,14 @@
     "target": "es2022",
     "module": "es2020",
     "lib": ["es2018", "dom"],
-    "useDefineForClassFields": false
+    "useDefineForClassFields": false,
+    "paths":{
+      "@movieset/features/*": ["./src/app/features/*"],
+      "@movieset/core/*": ["./src/app/core/*"],
+      "@movieset/ui/*": ["./src/app/ui/*"],
+      "@movieset/views/*": ["./src/app/views/*"],
+      "@movieset/theme/*": ["./src/theme/*"],
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

@@ -1,0 +1,43 @@
+@import '../../../theme/variables';
+
+
+.banner-card{
+  width: 100% !important;
+  overflow: hidden;
+  margin: 0 auto;
+  min-height: 360px !important;
+
+  >ion-img{
+    margin-top: 25px;
+    margin-bottom: 10px;
+  }
+}
+
+.card {
+  width: 100%;
+  margin: 0 auto;
+  padding: 13px;
+  font-size: 3.2vw !important;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  background: $fourtiary;
+  border-radius: 10px;
+
+  img{
+    width: 15%;
+  }
+
+  .chip{
+    padding: 5px;
+    border-radius: 5px;
+  }
+
+  .div-center{
+    >div {
+      width: 48%;
+      margin-bottom: 10px;
+    }
+  }
+}

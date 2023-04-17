@@ -1,0 +1,27 @@
+@import '../../../theme/variables';
+
+:host ::ng-deep .swiper-pagination{
+
+  .swiper-pagination-bullet {
+    background-color: $primary;
+  }
+}
+
+:host{
+  width: 100%;
+  min-height: 335;
+}
+
+swiper {
+  margin-top: 10px;
+  // margin-bottom: 10px;
+  min-height: 270px;
+
+  ng-template{
+    min-height: 100px;
+  }
+}
+
+h2 {
+  text-transform: capitalize;
+}

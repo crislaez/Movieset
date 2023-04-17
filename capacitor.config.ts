@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'io.ionic.starter',
-  appName: 'movieset',
+  appId: 'io.ionic.movieset',
+  appName: 'Movieset',
   webDir: 'www',
   bundledWebRuntime: false
 };

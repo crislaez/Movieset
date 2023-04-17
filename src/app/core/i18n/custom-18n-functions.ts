@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core';
 import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 import { Preferences  } from '@capacitor/preferences'; //APP
 
-const LANG = 'Movieset';
+const LANG = 'MoviesetLang';
 
 
 export function createTranslateLoader(http: HttpClient) {

@@ -28,10 +28,14 @@ import { filter, map, shareReplay } from 'rxjs/operators';
           [text]="''">
         </ion-back-button>
 
-        <ion-icon
+        <!-- HIDE EMPTY BUTTON  -->
+        <ion-back-button
           *ngIf="['home']?.includes(currentSection?.route!)"
-          slot="start">
-        </ion-icon>
+          class="text-color-secondary"
+          slot="start"
+          [defaultHref]="redirectoTo(currentSection)"
+          [text]="''">
+        </ion-back-button>
 
         <!-- title  -->
         <!-- class="text-color-light" -->

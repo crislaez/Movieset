@@ -348,6 +348,10 @@ cdk-virtual-scroll-viewport {
 	-webkit-text-fill-color: transparent;
 }
 
+.text-color-secondary{
+  color: $secondary;
+}
+
 .text-color-sixtiary{
   color: $sixtiary;
 }
@@ -380,7 +384,7 @@ cdk-virtual-scroll-viewport {
 .components-background-primary{
   background: $primary;
 }
-
+// secondary
 .components-background-dark{
   background: $secondary;
 }
@@ -742,8 +746,8 @@ ion-modal{
   width: 15%;
 }
 
-.width-13{
-  width: 13%;
+.width-12{
+  width: 11.1%;
 }
 
 .height-1-3{

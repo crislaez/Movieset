@@ -2,19 +2,19 @@
 
 Movieset es una aplicación hecha en Ionic (Angular, TypeScript, Sass/Css, Html, Rxjs)
 
-<img src="https://github.com/crislaez/Movieset/blob/master/src/assets/images/movieset_1.jpg" />
+<img src="https://github.com/crislaez/Movieset/blob/master/src/assets/images/movieset_1.png" />
 <hr>
-<img src="https://github.com/crislaez/Movieset/blob/master/src/assets/images/movieset_2.jpg" />
+<img src="https://github.com/crislaez/Movieset/blob/master/src/assets/images/movieset_2.png" />
 <hr>
-<img src="https://github.com/crislaez/Movieset/blob/master/src/assets/images/movieset_3.jpg" />
+<img src="https://github.com/crislaez/Movieset/blob/master/src/assets/images/movieset_3.png" />
 <hr>
-<img src="https://github.com/crislaez/Movieset/blob/master/src/assets/images/movieset_4.jpg" />
+<img src="https://github.com/crislaez/Movieset/blob/master/src/assets/images/movieset_4.png" />
 <hr>
-<img src="https://github.com/crislaez/Movieset/blob/master/src/assets/images/movieset_5.jpg" />
+<img src="https://github.com/crislaez/Movieset/blob/master/src/assets/images/movieset_5.png" />
 <hr>
-<img src="https://github.com/crislaez/Movieset/blob/master/src/assets/images/movieset_6.jpg" />
+<img src="https://github.com/crislaez/Movieset/blob/master/src/assets/images/movieset_6.png" />
 <hr>
-<img src="https://github.com/crislaez/Movieset/blob/master/src/assets/images/movieset_7.jpg" />
+<img src="https://github.com/crislaez/Movieset/blob/master/src/assets/images/movieset_7.png" />
 <hr>
 
 

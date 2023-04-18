@@ -9,7 +9,7 @@ import { Actor, ActorService } from '@movieset/features/actor';
 import { Movie } from '@movieset/features/movie';
 import { Serie } from '@movieset/features/serie';
 import { ActorDetailModalComponent } from '@movieset/ui/actor-detail-modal';
-import { catchError, map, of, switchMap, tap } from 'rxjs';
+import { catchError, map, of, switchMap } from 'rxjs';
 import { ActorsPageComponentState } from '../models/actors-page.models';
 
 @Component({
@@ -23,7 +23,7 @@ import { ActorsPageComponentState } from '../models/actors-page.models';
     <div class="container components-background-dark">
       <h1 class="text-color-gradient">{{ 'COMMON.ACTORS' | translate }}</h1>
 
-      <!-- <div class="empty-div"></div>Ç -->
+      <div class="empty-div"></div>
 
       <div class="displays-center width-max heigth-min">
         <!-- FORM  -->
@@ -97,7 +97,7 @@ export class ActorsComponent {
   showButton: boolean = false;
   status: EntityStatus = EntityStatus.Initial;
   search = new FormControl(null);
-  componentState!: ActorsPageComponentState;
+  componentState!: ActorsPageComponentState
 
   triggerLoad = new EventEmitter<ActorsPageComponentState>();
   info$ = this.triggerLoad.pipe(
@@ -106,21 +106,41 @@ export class ActorsComponent {
       this.cdRef.detectChanges();
 
       const endpoint$ = search
-                      ? this.actorService.getBySearch(page, search)
-                      : this.actorService.getAllPopular(page);
+                      ? this.actoreService.getBySearch(page, search)
+                      : this.actoreService.getAllPopular(page);
 
       return endpoint$.pipe(
         map((response) => {
           this.status = EntityStatus.Loaded;
+          const { actors } = response || {};
 
-          return response
+          this.componentState = {
+            ...this.componentState,
+            cachedActors: [
+              ...(page >= 1
+                  ? [
+                    ...(this.componentState?.cachedActors ?? []),
+                    ...(actors ?? [])
+                  ]
+                  : [
+                    ...(actors ?? [])
+                  ]
+                )
+            ]
+          };
+
+          return {
+            ...response,
+            actors: [
+              ...(this.componentState?.cachedActors ?? [])
+            ]
+          }
         }),
         catchError(() => {
           this.status = EntityStatus.Error;
           this.notificationService.notificationFailure('ERRORS.ERROR_LOAD_ACTORS')
           return of({})
         })
-        ,tap(d => console.log(d))
       )
     })
   );
@@ -129,7 +149,7 @@ export class ActorsComponent {
   constructor(
     private platform: Platform,
     private cdRef: ChangeDetectorRef,
-    private actorService: ActorService,
+    private actoreService: ActorService,
     private modalController: ModalController,
     private notificationService: NotificationService,
   ) { }
@@ -138,9 +158,12 @@ export class ActorsComponent {
   ionViewWillEnter(): void {
     this.content.scrollToTop();
     this.search.reset();
+
     this.componentState = {
-      page: 1
+      page: 1,
+      cachedActors: []
     };
+
     this.triggerLoad.next(this.componentState);
   }
 
@@ -201,6 +224,7 @@ export class ActorsComponent {
       ...this.componentState,
       page: 1,
       search,
+      cachedActors:[]
     }
   }
 

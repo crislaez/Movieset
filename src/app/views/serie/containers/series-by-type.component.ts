@@ -97,11 +97,7 @@ export class SeriesByTypeComponent {
   title!: string;
   search = new FormControl(null);
   status: EntityStatus = EntityStatus.Initial;
-  componentState: SeriesByTypePageComponentState = {
-    type: 'popular',
-    page: 1,
-    cachedSeries: []
-  };
+  componentState!: SeriesByTypePageComponentState;
 
   triggerLoad = new EventEmitter<SeriesByTypePageComponentState>();
   info$ = this.triggerLoad.pipe(
@@ -169,6 +165,15 @@ export class SeriesByTypeComponent {
   }
 
   ionViewWillEnter(): void {
+    this.content.scrollToTop();
+    this.search.reset();
+
+    this.componentState = {
+      type: 'popular',
+      page: 1,
+      cachedSeries: []
+    };
+
     this.triggerLoad.next(this.componentState);
   }
 

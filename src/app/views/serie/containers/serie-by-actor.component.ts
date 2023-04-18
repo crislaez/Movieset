@@ -165,6 +165,9 @@ export class SerieByActorComponent {
 
 
   ionViewWillEnter(): void {
+    this.content.scrollToTop();
+    this.search.reset();
+
     const { paramMap, data } = this.route.snapshot || {};
     const { params } = (paramMap as any) || {};
     const { router: type } = data || {};

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inject, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Inject, ViewChild, inject } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Keyboard } from '@capacitor/keyboard';
@@ -160,7 +160,7 @@ export class ActorsByMovieOrSerieComponent {
     private serieService: SerieService,
     private movieService: MovieService,
     private modalController: ModalController,
-    @Inject(ENVIRONMENT) public env: Environment,
+    @Inject(ENVIRONMENT) private env: Environment,
     private notificationService: NotificationService,
   ) {
     this.slice = this.env.perPage ?? 21
@@ -168,7 +168,7 @@ export class ActorsByMovieOrSerieComponent {
 
 
   ionViewWillEnter(): void {
-      this.content.scrollToTop();
+    this.content.scrollToTop();
     this.search.reset();
 
     const { paramMap, data } = this.route.snapshot || {};

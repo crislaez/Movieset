@@ -99,13 +99,9 @@ export class MoviesByTypeComponent {
   title!: string;
   search = new FormControl(null);
   status: EntityStatus = EntityStatus.Initial;
-  componentState: MoviesByTypePageComponentState = {
-    type: 'popular',
-    page: 1,
-    cachedMovies: []
-  };
-
+  componentState!: MoviesByTypePageComponentState;
   triggerLoad = new EventEmitter<MoviesByTypePageComponentState>();
+
   info$ = this.triggerLoad.pipe(
     switchMap((data) => {
       this.status = EntityStatus.Pending;
@@ -173,6 +169,15 @@ export class MoviesByTypeComponent {
 
 
   ionViewWillEnter(): void {
+    this.content.scrollToTop();
+    this.search.reset();
+
+    this.componentState = {
+      type: 'popular',
+      page: 1,
+      cachedMovies: []
+    };
+
     this.triggerLoad.next(this.componentState);
   }
 

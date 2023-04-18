@@ -4,10 +4,10 @@ import { EntityStatus } from '@movieset/core/enums/state.enum';
 import { gotToTop, trackById } from '@movieset/core/functions/common.functions';
 import { TypeOption } from '@movieset/core/models/common-type.models';
 import { NotificationService } from '@movieset/core/notification';
-import { HomeMovieCarrusel, Movie, MovieService } from '@movieset/features/movie';
-import { HomeSerieCarrusel, Serie, SerieService } from '@movieset/features/serie';
+import { Movie, MovieService } from '@movieset/features/movie';
+import { Serie, SerieService } from '@movieset/features/serie';
 import { ItemDetailModalComponent } from '@movieset/ui/item-detail-modal';
-import { Observable, catchError, forkJoin, map, of, switchMap, tap } from 'rxjs';
+import { Observable, catchError, forkJoin, map, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-home',

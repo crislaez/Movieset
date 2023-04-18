@@ -98,11 +98,7 @@ export class SeriesComponent {
   showButton: boolean = false;
   search = new FormControl(null);
   status: EntityStatus = EntityStatus.Initial;
-  componentState:SeriePageComponentState = {
-    page: 1,
-    search: null,
-    cachedSeries:[]
-  };
+  componentState!: SeriePageComponentState;
   triggerLoad = new EventEmitter<SeriePageComponentState>();
 
   info$ = this.triggerLoad.pipe(
@@ -162,6 +158,15 @@ export class SeriesComponent {
 
 
   ionViewWillEnter(): void {
+    this.content.scrollToTop();
+    this.search.reset();
+
+    this.componentState = {
+      page: 1,
+      search: null,
+      cachedSeries:[]
+    };
+
     this.triggerLoad.next(this.componentState);
   }
 

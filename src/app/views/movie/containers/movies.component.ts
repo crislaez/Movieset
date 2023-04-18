@@ -1,6 +1,5 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, ViewChild } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
 import { Keyboard } from '@capacitor/keyboard';
 import { IonContent, ModalController, Platform } from '@ionic/angular';
 import { EntityStatus } from '@movieset/core/enums/state.enum';
@@ -97,11 +96,7 @@ export class MoviesComponent {
   showButton: boolean = false;
   search = new FormControl(null);
   status: EntityStatus = EntityStatus.Initial;
-  componentState:MoviesPageComponentState = {
-    page: 1,
-    search: null,
-    cachedMovies:[]
-  };
+  componentState!:MoviesPageComponentState;
   triggerLoad = new EventEmitter<MoviesPageComponentState>();
 
   info$ = this.triggerLoad.pipe(
@@ -153,7 +148,6 @@ export class MoviesComponent {
 
   constructor(
     private platform: Platform,
-    private route: ActivatedRoute,
     private cdRef: ChangeDetectorRef,
     private movieService: MovieService,
     private modalController: ModalController,
@@ -162,6 +156,15 @@ export class MoviesComponent {
 
 
   ionViewWillEnter(): void {
+    this.content.scrollToTop();
+    this.search.reset();
+
+    this.componentState = {
+      page: 1,
+      search: null,
+      cachedMovies:[]
+    };
+
     this.triggerLoad.next(this.componentState);
   }
 

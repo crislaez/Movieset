@@ -23,7 +23,7 @@ import { ActorsPageComponentState } from '../models/actors-page.models';
     <div class="container components-background-dark">
       <h1 class="text-color-gradient">{{ 'COMMON.ACTORS' | translate }}</h1>
 
-      <div class="empty-div"></div>
+      <!-- <div class="empty-div"></div> -->
 
       <div class="displays-center width-max heigth-min">
         <!-- FORM  -->

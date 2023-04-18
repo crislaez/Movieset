@@ -45,7 +45,7 @@ import { filter, map, shareReplay } from 'rxjs/operators';
 
         <!-- class="text-color" -->
         <ion-icon
-          class="text-color-light"
+          class="text-color-light width-10"
           slot="end"
           name="ellipsis-horizontal-outline"
           (click)="presentModal()">

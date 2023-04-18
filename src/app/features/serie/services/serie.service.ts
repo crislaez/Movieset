@@ -5,8 +5,8 @@ import { TypeOption, TypeSubType } from '@movieset/core/models/common-type.model
 import { Response } from '@movieset/core/models/response.models';
 import { Review } from '@movieset/core/models/reviews.models';
 import { Video } from '@movieset/core/models/vide.models';
-import { Observable, catchError, forkJoin, map, of, throwError } from 'rxjs';
-import { HomeSerieCarrusel } from '../models/serie-state.models';
+import { BehaviorSubject, Observable, catchError, forkJoin, map, of, throwError } from 'rxjs';
+import { CarruselSerieFormatBody, HomeSerieCarrusel } from '../models/serie-state.models';
 import { Serie, SerieResult } from '../models/serie.models';
 
 
@@ -17,6 +17,7 @@ export class SerieService {
 
   baseURL: string = this.env.baseEndpoint;
   apiKey: string = this.env.apiKey;
+  serieCarrusel$ = new BehaviorSubject<HomeSerieCarrusel<Serie>>({});
 
 
   constructor(
@@ -25,7 +26,11 @@ export class SerieService {
   ) { }
 
 
-  getHomeCarrusel(): Observable<HomeSerieCarrusel<Serie>> {
+  getHomeCarrusel(reload: boolean): Observable<HomeSerieCarrusel<Serie>> {
+    if(!reload && Object.keys(this.serieCarrusel$.value || {})?.length > 0){
+      return of(this.serieCarrusel$.value)
+    }
+
     return forkJoin({
       popular: this.getByType('popular', 1).pipe(catchError(() => of({}))),
       on_the_air: this.getByType('on_the_air', 1).pipe(catchError(() => of({}))),
@@ -37,29 +42,10 @@ export class SerieService {
         const { series: onTheAirMovies = [] } = (on_the_air as SerieResult) || {};
         const { series: topRatedMovies = [] } = (top_rated as SerieResult) || {};
 
-        return {
-          popular: {
-            id: 4,
-            title: ('serie' as TypeOption),
-            url:'/serie/popular',
-            subTitle: 'popular',
-            items: popularMovies?.slice(0, 7)
-          },
-          on_the_air: {
-            id: 5,
-            title: ('serie' as TypeOption),
-            url:'/serie/on_the_air',
-            subTitle: 'on_the_air',
-            items: onTheAirMovies?.slice(0, 7)
-          },
-          top_rated: {
-            id: 6,
-            title: ('serie' as TypeOption),
-            url:'/serie/top_rated',
-            subTitle: 'top_rated',
-            items: topRatedMovies?.slice(0, 7)
-          }
-        }
+        const body = this.getHomeCarruselFormatBody({popularMovies, onTheAirMovies, topRatedMovies})
+        this.serieCarrusel$.next(body);
+
+        return body || {};
       }),
       catchError((error) => {
         return throwError(() => error)
@@ -134,6 +120,34 @@ export class SerieService {
         return throwError(() => error)
       })
     );
+  }
+
+  private getHomeCarruselFormatBody(data: CarruselSerieFormatBody): HomeSerieCarrusel<Serie> {
+    const { popularMovies, onTheAirMovies, topRatedMovies } = data || {};
+
+    return {
+      popular: {
+        id: 4,
+        title: ('serie' as TypeOption),
+        url:'/serie/popular',
+        subTitle: 'popular',
+        items: popularMovies?.slice(0, 7)
+      },
+      on_the_air: {
+        id: 5,
+        title: ('serie' as TypeOption),
+        url:'/serie/on_the_air',
+        subTitle: 'on_the_air',
+        items: onTheAirMovies?.slice(0, 7)
+      },
+      top_rated: {
+        id: 6,
+        title: ('serie' as TypeOption),
+        url:'/serie/top_rated',
+        subTitle: 'top_rated',
+        items: topRatedMovies?.slice(0, 7)
+      }
+    };
   }
 
   // getMenu(): Observable<Genre[]>{

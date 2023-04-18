@@ -7,7 +7,7 @@ import { NotificationService } from '@movieset/core/notification';
 import { HomeMovieCarrusel, Movie, MovieService } from '@movieset/features/movie';
 import { HomeSerieCarrusel, Serie, SerieService } from '@movieset/features/serie';
 import { ItemDetailModalComponent } from '@movieset/ui/item-detail-modal';
-import { Observable, catchError, forkJoin, map, of, switchMap } from 'rxjs';
+import { Observable, catchError, forkJoin, map, of, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +19,7 @@ import { Observable, catchError, forkJoin, map, of, switchMap } from 'rxjs';
 
     <div class="container components-background-dark">
       <h1 class="text-color-gradient">{{ 'COMMON.HOME' | translate }}</h1>
+
       <!-- <div class="empty-div"></div> -->
 
       <!-- LOADER  -->
@@ -80,8 +81,6 @@ export class HomeComponent {
   showButton: boolean = false;
   status: EntityStatus = EntityStatus.Initial;
   triggerLoad = new EventEmitter<boolean>();
-  movies!: HomeMovieCarrusel<Movie>;
-  series!: HomeSerieCarrusel<Serie>;
 
   info$: Observable<any> = this.triggerLoad.pipe(
     switchMap((reload) => {
@@ -89,15 +88,12 @@ export class HomeComponent {
       this.cdRef.detectChanges();
 
       return forkJoin({
-        movies: !reload && Object.keys(this.movies || {})?.length > 0 ? of(this.movies) : this.movieService.getHomeCarrusel(),
-        series: !reload && Object.keys(this.series || {})?.length > 0 ? of(this.series) : this.serieService.getHomeCarrusel()
+        movies: this.movieService.getHomeCarrusel(reload).pipe(catchError(() => of({}))),
+        series: this.serieService.getHomeCarrusel(reload).pipe(catchError(() => of({})))
       }).pipe(
         map(responses => {
           this.status = EntityStatus.Loaded;
           const { movies, series } = responses || {};
-
-          this.movies = {...(movies ?? {})};
-          this.series = {...(series ?? {})};
 
           return [
             ...Object.values(movies || {}),

@@ -25,7 +25,7 @@ import { ActorByMoviePageInfo, ActorsByMoviePageComponentState } from '../models
     <div class="container components-background-dark">
       <h1 class="text-color-gradient">{{ title | translate }}</h1>
 
-      <div class="empty-div"></div>
+      <!-- <div class="empty-div"></div> -->
 
       <div class="displays-center width-max heigth-min">
         <!-- FORM  -->
@@ -168,6 +168,9 @@ export class ActorsByMovieOrSerieComponent {
 
 
   ionViewWillEnter(): void {
+      this.content.scrollToTop();
+    this.search.reset();
+
     const { paramMap, data } = this.route.snapshot || {};
     const { params } = (paramMap as any) || {};
     const { router: type } = data || {};

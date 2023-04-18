@@ -5,7 +5,7 @@ import { TypeOption } from '@movieset/core/models/common-type.models';
 import { Response } from '@movieset/core/models/response.models';
 import { Movie } from '@movieset/features/movie';
 import { Serie } from '@movieset/features/serie';
-import { Observable, catchError, map, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, map, throwError } from 'rxjs';
 import { Actor, ActorResponse, ActorsResult, ActorsSeriesOrMovieResponse, Crew } from '../models/actor.model';
 
 @Injectable({
@@ -15,6 +15,7 @@ export class ActorService {
 
   baseURL: string = this.env.baseEndpoint;
   apiKey: string = this.env.apiKey;
+  totalActors$ = new BehaviorSubject<Actor[]>([]);
 
 
   constructor(
@@ -26,8 +27,23 @@ export class ActorService {
   getAllPopular(page: number, type: string = 'popular'): Observable<ActorsResult>{
     return this.http.get<Response<Actor>>(`${this.baseURL}person/${type}?api_key=${this.apiKey}&page=${page}`).pipe(
       map( (response) => {
-        const { page, results, total_results } = response || {}
-        return { actors: results || [], page: page || 1, total_results: total_results || 0 };
+        const { page, results = [], total_results } = response || {};
+
+        this.totalActors$.next([
+          ...(page === 1
+              ? results
+              : [
+                ...(this.totalActors$.value ?? []),
+                ...results,
+              ]
+            )
+        ]);
+
+        return {
+          actors: this.totalActors$.value,
+          page: page || 1,
+          total_results: total_results || 0
+        };
       }),
       catchError((error) => {
         return throwError(() => error)
@@ -58,8 +74,22 @@ export class ActorService {
   getBySearch(page: number, searchName: string): Observable<ActorsResult>{
     return this.http.get<Response<Actor>>(`${this.baseURL}search/person?api_key=${this.apiKey}&query=${searchName}&page=${page}`).pipe(
       map( (response) => {
-        const { page, results, total_results } = response || {}
-        return { actors: results || [], page: page || 1, total_results: total_results || 0 };
+        const { page, results, total_results } = response || {};
+        this.totalActors$.next([
+          ...(page === 1
+              ? results
+              : [
+                ...(this.totalActors$.value ?? []),
+                ...results,
+              ]
+            )
+        ]);
+
+        return {
+          actors: this.totalActors$.value,
+          page: page || 1,
+          total_results: total_results || 0
+        };
       }),
       catchError((error) => {
         return throwError(() => error)

@@ -22,7 +22,8 @@ import { SeriesByTypePageComponentState } from '../models/series-by-type-page.mo
 
     <div class="container components-background-dark">
       <h1 class="text-color-gradient">{{ title | translate }}</h1>
-      <div class="empty-div"></div>
+
+      <!-- <div class="empty-div"></div> -->
 
       <div class="displays-center width-max heigth-min">
         <!-- FORM  -->

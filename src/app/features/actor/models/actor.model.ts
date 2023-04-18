@@ -58,8 +58,8 @@ export interface ActorTvResponse {
 export interface ActorsResult {
   // searchs?: Serie[];
   actors?: Actor[];
-  page: number;
-  total_results: number;
+  page?: number;
+  total_results?: number;
 }
 
 export interface ActorsSeriesOrMovieResponse<T> {
